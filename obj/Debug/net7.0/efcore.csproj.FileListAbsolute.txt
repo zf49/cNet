@@ -78,3 +78,4 @@
 /Users/chris/Desktop/66/webApi/xiangmu/efcore/bin/Debug/net7.0/Npgsql.dll
 /Users/chris/Desktop/66/webApi/xiangmu/efcore/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/chris/Desktop/66/webApi/xiangmu/efcore/bin/Debug/net7.0/Pomelo.EntityFrameworkCore.MySql.dll
+/Users/chris/Desktop/66/webApi/xiangmu/efcore/bin/Debug/net7.0/Newtonsoft.Json.dll

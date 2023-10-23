@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using efcore.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace efcore.Controllers
 {
@@ -63,11 +64,59 @@ public UserController(ILogger<UserController> logger)
 
                 user.Pwd = "666";
 
+                //add
+
+                var newUser = new User{Username="Dotnet New User1",Pwd="123"};
+
+                userContext.Users.Add(newUser);
+
+                // userContext.Users.Update(newUser);
+
+                
+               string jsonData = @"[
+    {""Username"": ""Alice"", ""Pwd"": ""password1""},
+    {""Username"": ""Bob"", ""Pwd"": ""password2""},
+    {""Username"": ""Charlie"", ""Pwd"": ""password3""}
+]";
+
+                var  users = JsonConvert.DeserializeObject<List<User>>(jsonData);
+
+                SsmBlogContext rangeAddContext = new SsmBlogContext();
+                
+                rangeAddContext.Users.AddRange(users);
+
+                rangeAddContext.Users.Where(x=>x.Username.Contains("A"));
+
+
+
+
+                rangeAddContext.SaveChanges();
+
+
+
+
                 userContext.Update(article);
                 userContext.SaveChanges();
                 Console.WriteLine(article.Title);
 
                return user;
+        }
+
+
+
+        [HttpGet]
+            [Route("checkUser")] 
+        public IEnumerable<User> CheckUser(){
+
+            SsmBlogContext context = new SsmBlogContext();
+
+
+            List<User> users = context.Users.Where(x=>EF.Functions.Collate(x.Username, "utf8mb4_bin").Contains("A") ).ToList();
+
+            
+
+            return users;
+
         }
 
 
