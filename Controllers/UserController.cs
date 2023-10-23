@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using efcore.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace efcore.Controllers
 {
@@ -37,19 +38,36 @@ public UserController(ILogger<UserController> logger)
     [HttpGet]
     [Route("Getzxc/{id}")] 
 
-        public IEnumerable<User> GetAAA(int id){
+        public User GetAAA(int id){
 
                using SsmBlogContext userContext = new 
                  SsmBlogContext();
 
-                var res = userContext.Users.ToList();
-                // userContext.Dispose();
-                Console.WriteLine(res[0].Username);
-                 
+                 userContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+                var user = userContext.Users.AsNoTracking().FirstOrDefault(x=>x.Id == 1);   
+
+                var article = userContext.Articles.FirstOrDefault(x=>x.Id==1);
+                article.Title="6666";
+
+                // var res = userContext.Users.ToList();
+                // // userContext.Dispose();
+                // Console.WriteLine(res[0].Username);
+                
+            
+
+                // var user = userContext.Users.FirstOrDefault(x=>x.Id == 1);
+
+                Console.WriteLine(user.Pwd);
                 //  实体追踪
 
+                user.Pwd = "666";
 
-               return res;
+                userContext.Update(article);
+                userContext.SaveChanges();
+                Console.WriteLine(article.Title);
+
+               return user;
         }
 
 
