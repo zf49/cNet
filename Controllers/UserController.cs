@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using efcore.Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace efcore.Controllers
-{
+{   
+    [EnableCors("any")]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
