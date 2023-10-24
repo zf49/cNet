@@ -15,12 +15,34 @@ namespace efcore.Controllers
     {
 
         private readonly ILogger<UserController> _logger;
+        public SsmBlogContext Context { get; set; }
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger, SsmBlogContext context)
+
         {
+            this.Context = context;
             _logger = logger;
+
+
         }
 
+        [HttpPost]  // 更改为HttpGet
+        [Route("GetArticleById/{id}")]  // 更改路由名称
+        public IActionResult GetArticleById(int id)  // 返回IActionResult，它提供了更多的灵活性
+        {
+            Console.WriteLine(id);
+
+            Article article = Context.Articles.FirstOrDefault(x => x.Id == id);
+
+            if (article == null)
+            {
+                Console.WriteLine($"No article found with ID {id}");
+                return NotFound($"No article found with ID {id}");  // 返回404 Not Found响应
+            }
+
+            Console.Write(article.ToString());
+            return Ok(article);  // 返回200 OK响应，并将文章作为响应体
+        }
 
 
 
@@ -119,6 +141,21 @@ namespace efcore.Controllers
             return users;
 
         }
+
+        [HttpGet]
+        [Route("DITest")]
+        public IEnumerable<Article> DITest()
+        {
+
+            var userList = Context.Articles.Where(x => x.AuthorId == 2).ToList();
+
+
+            return userList;
+
+
+        }
+
+
 
 
         [HttpGet]

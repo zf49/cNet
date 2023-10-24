@@ -18,4 +18,11 @@ public partial class Article
     public virtual User Author { get; set; } = null!;
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+    public override string ToString(){
+                    return $"Id: {Id}, Title: {Title}, Content: {Content}";
+
+    }
+
+
 }
